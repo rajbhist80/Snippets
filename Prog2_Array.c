@@ -1,42 +1,49 @@
 #include<stdio.h>
 #include<conio.h>
 
-void showarr(int *arr, int *size)
+int linear_search(int *arr, int size, int number)
 {
-    for (int i = 0; i < *size; i++)
+    for (int i = 0; i < size; i++)
     {
-        printf("%d ", arr[i]);
+        // printf("%d ", arr[i]);
+        if (arr[i] == number)
+        {
+            return i;
+        }
     }
-    printf("\n");
+    return -1;
 }
 
-void addelement(int *arr, int *size, int index, int value)
+int binary_search(int *arr, int size, int number)
 {
-    for (int i = *size; i > index; i--)
+    int start = 0, end = size - 1, mid = (start + end)/2;
+    if (number < arr[0] || number > arr[size - 1])
     {
-        arr[i] = arr[i - 1];
+        return -1;
     }
-    arr[index] = value;
-    *size += 1;
-}
-
-void delelement(int *arr, int *size, int index)
-{   
-    for (int i = index; i < *size - 1; i++)
+    else
     {
-        arr[i] = arr[i + 1];
+        while (number != arr[mid])
+        {
+            if (number < arr[mid])
+            {
+                end = mid - 1;
+            }
+            else
+            {
+                start = mid + 1;
+            }
+            mid = (start + end)/2;
+        }
+        return mid;
     }
-    *size -= 1;
 }
 
 void main()
 {
-    int size;
-    int arr[20] = {1, 5, 7, 12};
-    size = 4;
-    showarr(arr, &size);
-    addelement(arr, &size, 3, 6);
-    showarr(arr, &size);
-    delelement(arr, &size, 2);
-    showarr(arr, &size);
+    int size, arr[] = { 2,3,5,7,10,14,18,21,23,27,32,38,43,50 };
+    int number = 43;
+    size = (sizeof(arr)/sizeof(int));
+    printf("It is present at index : %d", linear_search(arr, size, number));
+    printf("\nIt is present at index : %d", binary_search(arr, size, number));
 }
