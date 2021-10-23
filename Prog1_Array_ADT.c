@@ -1,41 +1,42 @@
 #include<stdio.h>
 #include<conio.h>
-#include<stdlib.h>
 
-typedef struct myArray
+void showarr(int *arr, int *size)
 {
-    int total_size;
-    int used_size;
-    int *ptr;
-}arr;
-
-void createArray(arr *a, int tSize, int uSize)
-{
-    (*a).total_size = tSize;
-    (*a).used_size = uSize;
-    (*a).ptr = (int *)malloc(tSize * (sizeof(int)));
-    for (int i = 0; i < a->used_size; i++)
+    for (int i = 0; i < *size; i++)
     {
-        printf("Enter element %d : ", i + 1);
-        scanf("%d", &(a->ptr)[i]);
+        printf("%d ", arr[i]);
     }
+    printf("\n");
 }
 
-void show(arr *a)
+void addelement(int *arr, int *size, int index, int value)
 {
-    for (int i = 0; i < a->used_size; i++)
+    for (int i = *size; i > index; i--)
     {
-        printf("Element %d : %d\n", i + 1, (a->ptr)[i]);
+        arr[i] = arr[i - 1];
     }
-    
+    arr[index] = value;
+    *size += 1;
+}
+
+void delelement(int *arr, int *size, int index)
+{   
+    for (int i = index; i < *size - 1; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+    *size -= 1;
 }
 
 void main()
 {
-    arr marks;
-    printf("\n\nInitial Size : %d\n\n", sizeof(marks));
-    createArray(&marks, 10, 5);
-    show(&marks);
-    printf("\n\nFinal Size : %d\n\n", sizeof(marks));
-    getch();
+    int size;
+    int arr[20] = {1, 5, 7, 12};
+    size = 4;
+    showarr(arr, &size);
+    addelement(arr, &size, 3, 6);
+    showarr(arr, &size);
+    delelement(arr, &size, 2);
+    showarr(arr, &size);
 }
